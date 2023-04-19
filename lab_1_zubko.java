@@ -124,7 +124,6 @@ public class lab_1_zubko {
     public static void main(String[] args) {
         long[] array = {1, 3, 7, 2, 5, 9, 4, 6, 8};
         long[] sortedArray = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-
         System.out.println("Linear search for 5: " + lab_1_zubko.find(array, 5));
         System.out.println("Linear search for 10: " + lab_1_zubko.find(array, 10));
         System.out.println("Binary search for 5: " + lab_1_zubko.findbin(sortedArray, 5));
