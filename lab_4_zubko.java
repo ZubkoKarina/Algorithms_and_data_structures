@@ -101,6 +101,33 @@ public class lab_4_zubko{
         }
         return n * (n + 1) * (2 * n + 1) / 6 + H4(n - 1);
     }
+    public static double GoldenR(int n) {
+        if (n == 0) {
+            return 1;
+        } else {
+            return 1 + 1 / GoldenR(n - 1);
+        }
+    }
+    public static int f(int n) {
+        if (n == 1) {
+            return -1;
+        }
+        return -f(n - 1) * (n - 3);
+    }
+    public static int binomialCoefficient(int n, int k) {
+        if (k == 0 || k == n) {
+            return 1;
+        }
+        return binomialCoefficient(n - 1, k - 1) + binomialCoefficient(n - 1, k);
+    }
+    public static void printPascalTriangle(int height) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(binomialCoefficient(i, j) + " ");
+            }
+            System.out.println();
+        }
+    }
     public static void main(String[] args){
         //task 1
         for (int i = 1; i <= 6; i++) {
@@ -150,8 +177,16 @@ public class lab_4_zubko{
         System.out.println("H3(" + n + ") = " + H3(n));
         System.out.println("H4(" + n + ") = " + H4(n));
         //task 12
+        int n1 = 10;
+        double goldenRatio = GoldenR(n1);
+        System.out.println("Golden ratio for n = " + n + ": " + goldenRatio);
         //task 13
+        for (int i = 1; i <= 10; i++) {
+            System.out.println("f(" + i + ") = " + f(i));
+        }
         //task 14
+        int height = 5;
+        printPascalTriangle(height);
         //task 15
         //task 16
         //task 17
