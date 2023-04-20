@@ -128,6 +128,64 @@ public class lab_4_zubko{
             System.out.println();
         }
     }
+    public static int binaryNWD(int p, int q) {
+        if (q == 0) {
+            return p;
+        }
+        if (p == 0) {
+            return q;
+        }
+        if ((p & 1) == 0 && (q & 1) == 0) {
+            return 2 * binaryNWD(p / 2, q / 2);
+        }
+        if ((p & 1) == 0) {
+            return binaryNWD(p / 2, q);
+        }
+        if ((q & 1) == 0) {
+            return binaryNWD(p, q / 2);
+        }
+        if (p >= q) {
+            return binaryNWD((p - q) / 2, q);
+        }
+        return binaryNWD(p, (q - p) / 2);
+    }
+    public static void reverse(int[] arr, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        reverse(arr, start + 1, end - 1);
+    }
+    public static int binarySearchRecursive(int[] arr, int left, int right, int key) {
+        if (left > right) {
+            return -1;
+        }
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == key) {
+            return mid;
+        } else if (arr[mid] < key) {
+            return binarySearchRecursive(arr, mid + 1, right, key);
+        } else {
+            return binarySearchRecursive(arr, left, mid - 1, key);
+        }
+    }
+    public static int binarySearchIterative(int[] arr, int key) {
+        int left = 0;
+        int right = arr.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] == key) {
+                return mid;
+            } else if (arr[mid] < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
     public static void main(String[] args){
         //task 1
         for (int i = 1; i <= 6; i++) {
@@ -188,7 +246,28 @@ public class lab_4_zubko{
         int height = 5;
         printPascalTriangle(height);
         //task 15
+        int p = 48;
+        int q = 18;
+        int result4 = binaryNWD(p, q);
+        System.out.printf("Greatest Common Divisor of Numbers %d and %d =  %d\n", p, q, result4);
         //task 16
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        System.out.println("My array:");
+        for (int value : arr) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
+        reverse(arr, 0, arr.length - 1);
+        System.out.println("Reverse array:");
+        for (int value : arr) {
+            System.out.print(value + " ");
+        }
         //task 17
+        int[] sortedArray = {1, 3, 5, 7, 9, 11, 13, 15};
+        int key = 11;
+        int recursiveResult = binarySearchRecursive(sortedArray, 0, sortedArray.length - 1, key);
+        int iterativeResult = binarySearchIterative(sortedArray, key);
+        System.out.println("Recurs search: index " + key + " = " + recursiveResult);
+        System.out.println("Iterative search: index " + key + " = " + iterativeResult);
     }
 }
