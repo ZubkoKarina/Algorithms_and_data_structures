@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class lab_5_zubko{
     public static void selectionSort(int[] arr) {
@@ -34,6 +35,158 @@ public class lab_5_zubko{
                     arr[j + 1] = temp;
                 }
             }
+        }
+    }
+    public static void cocktailSort(int[] arr) {
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 0; i < arr.length - 1; i++) {
+                if (arr[i] > arr[i + 1]) {
+                    int temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+            swapped = false;
+            for (int i = arr.length - 2; i >= 0; i--) {
+                if (arr[i] > arr[i + 1]) {
+                    int temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    swapped = true;
+                }
+            }
+        } while (swapped);
+    }
+    public static void bubbleSort2(int[] arr) {
+        boolean swapped;
+        int lastIndex = arr.length - 1;
+        do {
+            swapped = false;
+            for (int i = 0; i < lastIndex; i++) {
+                if (arr[i] > arr[i + 1]) {
+                    int temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    swapped = true;
+                }
+            }
+            lastIndex--;
+        } while (swapped);
+    }
+    public static <T> void selectionSort(T[] arr, Comparator<T> comparator) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (comparator.compare(arr[j], arr[minIndex]) < 0) {
+                    minIndex = j;
+                }
+            }
+            T temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+    public static <T> void insertionSort(T[] arr, Comparator<T> comparator) {
+        for (int i = 1; i < arr.length; i++) {
+            T key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && comparator.compare(arr[j], key) > 0) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = key;
+        }
+    }
+    public static <T> void bubbleSort(T[] arr, Comparator<T> comparator) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (comparator.compare(arr[j], arr[j + 1]) > 0) {
+                    T temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+    public static <T> void cocktailSort(T[] arr, Comparator<T> comparator) {
+        boolean swapped;
+        int start = 0;
+        int end = arr.length;
+        while (start < end) {
+            swapped = false;
+            for (int i = start; i < end - 1; ++i) {
+                if (comparator.compare(arr[i], arr[i + 1]) > 0) {
+                    T temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+            swapped = false;
+            end--;
+
+            for (int i = end - 1; i >= start; i--) {
+                if (comparator.compare(arr[i], arr[i + 1]) > 0) {
+                    T temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    swapped = true;
+                }
+            }
+            start++;
+        }
+    }
+    public static int[] naiveMinMax(int[] arr) {
+        int min = arr[0];
+        int max = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        return new int[]{min, max};
+    }
+    public static int[] divideAndConquerMinMax(int[] arr, int start, int end) {
+        if (start == end) {
+            return new int[]{arr[start], arr[start]};
+        } else if (end - start == 1) {
+            return arr[start] < arr[end] ? new int[]{arr[start], arr[end]} : new int[]{arr[end], arr[start]};
+        }
+        int mid = (start + end) / 2;
+        int[] leftMinMax = divideAndConquerMinMax(arr, start, mid);
+        int[] rightMinMax = divideAndConquerMinMax(arr, mid + 1, end);
+        int min = Math.min(leftMinMax[0], rightMinMax[0]);
+        int max = Math.max(leftMinMax[1], rightMinMax[1]);
+        return new int[]{min, max};
+    }
+    public static long naivePower(long base, int exponent) {
+        long result = 1;
+        for (int i = 0; i < exponent; i++) {
+            result *= base;
+        }
+        return result;
+    }
+    public static long divideAndConquerPower(long base, int exponent) {
+        if (exponent == 0) {
+            return 1;
+        }
+        if (exponent % 2 == 0) {
+            long temp = divideAndConquerPower(base, exponent / 2);
+            return temp * temp;
+        } else {
+            return base * divideAndConquerPower(base, exponent - 1);
         }
     }
     public static void main(String[] args){
@@ -74,8 +227,73 @@ public class lab_5_zubko{
         endTime1 = System.nanoTime();
         System.out.println("Bubble sort: " + (endTime1 - startTime1) + " nanosec");
         //task 3
+        int[] arr1 = {5, 2, 9, 1, 5, 6};
+        int[] arr2 = arr1.clone();
+        int[] arr3 = arr1.clone();
+        cocktailSort(arr1);
+        bubbleSort(arr2);
+        bubbleSort2(arr3);
+        System.out.println("Cocktail sort: " + Arrays.toString(arr1));
+        System.out.println("Bubble sort: " + Arrays.toString(arr2));
+        System.out.println("Bubble sort 2: " + Arrays.toString(arr3));
         //task 4
+        Integer[] arr = {5, 3, 8, 1, 6, 2, 7, 4};
+        Comparator<Integer> comparator = Integer::compareTo;
+        System.out.println("Array:");
+        for (int i : arr) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        selectionSort(arr, comparator);
+        System.out.println("Array:");
+        for (int i : arr) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        arr = new Integer[]{5, 3, 8, 1, 6, 2, 7, 4};
+        insertionSort(arr, comparator);
+        System.out.println("Array:");
+        for (int i : arr) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        arr = new Integer[]{5, 3, 8, 1, 6, 2, 7, 4};
+        bubbleSort(arr, comparator);
+        System.out.println("Array:");
+        for (int i : arr) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        arr = new Integer[]{5, 3, 8, 1, 6, 2, 7, 4};
+        cocktailSort(arr, comparator);
+        System.out.println("Array:");
+        for (int i : arr) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
         //task 5
+        int[] arr4 = {3, 5, 2, 9, 6, 1, 8, 7, 4};
+        int[] naiveResult = naiveMinMax(arr4);
+        System.out.println("Naive: min = " + naiveResult[0] + ", max = " + naiveResult[1]);
+        int[] divideAndConquerResult = divideAndConquerMinMax(arr4, 0, arr4.length - 1);
+        System.out.println("Divide and conquer: min = " + divideAndConquerResult[0] + ", max = " + divideAndConquerResult[1]);
         //task 6
+        long base = 3;
+        int exponent = 10;
+        long startTime3 = System.nanoTime();
+        long naiveResult3 = naivePower(base, exponent);
+        long naiveDuration3 = System.nanoTime() - startTime3;
+        startTime = System.nanoTime();
+        long divideAndConquerResult3 = divideAndConquerPower(base, exponent);
+        long divideAndConquerDuration3 = System.nanoTime() - startTime;
+        System.out.println("Naive: res = " + naiveResult3 + ", time = " + naiveDuration3 + " nanosec");
+        System.out.println("Divide and conquer: res = " + divideAndConquerResult3 + ", time = " + divideAndConquerDuration3 + " nanosec");
+        if (naiveDuration3 > divideAndConquerDuration3) {
+            System.out.println("Algorytm dziel i zwyciężaj jest szybszy niż algorytm naiwny.");
+        } else if (naiveDuration3 < divideAndConquerDuration3) {
+            System.out.println("Algorytm naiwny jest szybszy niż algorytm „dziel i zwyciężaj”.");
+        } else {
+            System.out.println("Oba algorytmy zakończyły się w tym samym czasie.");
+        }
     }
 }
