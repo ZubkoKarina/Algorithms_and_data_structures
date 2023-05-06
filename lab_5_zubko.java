@@ -15,6 +15,7 @@ public class lab_5_zubko{
             arr[i] = temp;
         }
     }
+    
     public static void insertionSort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
             int key = arr[i];
